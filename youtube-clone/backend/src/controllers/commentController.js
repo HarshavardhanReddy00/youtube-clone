@@ -38,3 +38,70 @@ export const getComments = async (req, res) => {
   }
 };
 
+// Update Comment
+export const updateComment = async (req, res) => {
+  try {
+    const comment = await Comment.findById(
+      req.params.id
+    );
+
+    if (!comment) {
+      return res.status(404).json({
+        message: "Comment not found"
+      });
+    }
+
+    if (
+      comment.user.toString() !==
+      req.user._id.toString()
+    ) {
+      return res.status(401).json({
+        message: "Not Authorized"
+      });
+    }
+
+    comment.text = req.body.text;
+
+    const updatedComment = await comment.save();
+
+    res.json(updatedComment);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
+// Delete Comment
+export const deleteComment = async (req, res) => {
+  try {
+    const comment = await Comment.findById(
+      req.params.id
+    );
+
+    if (!comment) {
+      return res.status(404).json({
+        message: "Comment not found"
+      });
+    }
+
+    if (
+      comment.user.toString() !==
+      req.user._id.toString()
+    ) {
+      return res.status(401).json({
+        message: "Not Authorized"
+      });
+    }
+
+    await comment.deleteOne();
+
+    res.json({
+      message: "Comment Deleted Successfully"
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
