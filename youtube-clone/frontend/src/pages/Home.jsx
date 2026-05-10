@@ -54,4 +54,43 @@ const Home = () => {
     }
   }, [category, search]);
 
-  
+  // BEFORE LOGIN
+
+  if (!user) {
+    return (
+      <div className="flex flex-col justify-center items-center h-[80vh] text-gray-400">
+        <h1 className="text-2xl mb-6">
+          Please login to view videos
+        </h1>
+
+        <Link
+          to="/login"
+          className="bg-red-600 px-6 py-3 rounded-lg text-white"
+        >
+          Sign In
+        </Link>
+      </div>
+    );
+  }
+
+  // AFTER LOGIN
+
+  return (
+    <div className="bg-black min-h-screen text-white">
+      <FilterButtons
+        setCategory={setCategory}
+      />
+
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+        {videos.map((video) => (
+          <VideoCard
+            key={video._id}
+            video={video}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Home;
