@@ -35,3 +35,54 @@ export const createChannel = async (req, res) => {
   }
 };
 
+// Get Logged In User Channel
+export const getMyChannel = async (
+  req,
+  res
+) => {
+  try {
+    const channel = await Channel.findOne({
+      owner: req.user._id
+    }).populate(
+      "owner",
+      "username email avatar"
+    );
+
+    if (!channel) {
+      return res.status(404).json({
+        message: "Channel not found"
+      });
+    }
+
+    res.json(channel);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
+// Get Single Channel
+export const getChannel = async (req, res) => {
+  try {
+    const channel = await Channel.findById(
+      req.params.id
+    ).populate(
+      "owner",
+      "username avatar"
+    );
+
+    if (!channel) {
+      return res.status(404).json({
+        message: "Channel not found"
+      });
+    }
+
+    res.json(channel);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
