@@ -33,4 +33,57 @@ const CreateChannel = () => {
     }
   };
 
-  
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-black text-white">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-zinc-900 p-8 rounded-xl w-500px"
+      >
+        <h1 className="text-3xl font-bold mb-6 text-center">
+          Create Channel
+        </h1>
+
+        <input
+          type="text"
+          placeholder="Channel Name"
+          className="w-full p-3 mb-4 bg-black border border-zinc-700 rounded-lg"
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              channelName: e.target.value
+            })
+          }
+        />
+
+        <textarea
+          placeholder="Description"
+          className="w-full p-3 mb-4 bg-black border border-zinc-700 rounded-lg"
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              description: e.target.value
+            })
+          }
+        />
+
+        <input
+          type="text"
+          placeholder="Banner URL"
+          className="w-full p-3 mb-4 bg-black border border-zinc-700 rounded-lg"
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              banner: e.target.value
+            })
+          }
+        />
+
+                <button className="w-full bg-red-600 py-3 rounded-lg">
+          Create Channel
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default CreateChannel;
