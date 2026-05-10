@@ -69,4 +69,58 @@ const Register = () => {
   }
 };
 
-  
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-black">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-zinc-900 p-8 rounded-xl w-96"
+      >
+        <h1 className="text-white text-3xl mb-6 text-center">
+          Register
+        </h1>
+
+        <input
+          type="text"
+          placeholder="Username"
+          className="w-full p-3 bg-black border border-gray-700 text-white mb-4 rounded-lg"
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              username: e.target.value
+            })
+          }
+        />
+
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full p-3 bg-black border border-gray-700 text-white mb-4 rounded-lg"
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              email: e.target.value
+            })
+          }
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full p-3 bg-black border border-gray-700 text-white mb-4 rounded-lg"
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              password: e.target.value
+            })
+          }
+        />
+
+        <button className="w-full bg-red-600 py-3 rounded-lg">
+          Register
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default Register;
