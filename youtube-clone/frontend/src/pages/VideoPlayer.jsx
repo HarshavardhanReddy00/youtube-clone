@@ -299,4 +299,159 @@ const handleSubscribe =
             </div>
           </div>
 
-          
+          {/* DESCRIPTION */}
+
+          <div className="bg-zinc-900 p-4 rounded-xl mt-6">
+            <p className="text-gray-300 text-sm">
+              {video.views} views
+            </p>
+
+            <p className="mt-3 text-gray-200">
+              {video.description}
+            </p>
+          </div>
+
+          {/* COMMENTS */}
+
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold mb-4">
+              Comments
+            </h2>
+
+            {/* ADD COMMENT */}
+
+            <div className="flex gap-3 mb-6">
+              <input
+                type="text"
+                placeholder="Add a comment..."
+                value={comment}
+                onChange={(e) =>
+                  setComment(
+                    e.target.value
+                  )
+                }
+                className="flex-1 bg-zinc-900 border border-zinc-700 rounded-full px-5 py-3 outline-none"
+              />
+
+              <button
+                onClick={handleComment}
+                className="bg-blue-600 px-5 py-3 rounded-full"
+              >
+                Comment
+              </button>
+            </div>
+
+            {/* COMMENT LIST */}
+
+           <div className="space-y-4">
+  {video.comments.map(
+    (item) => (
+      <div
+        key={item._id}
+        className="bg-zinc-900 p-4 rounded-xl relative"
+      >
+        {/* TOP */}
+
+        <div className="flex justify-between">
+          <div>
+            <h3 className="font-semibold text-lg">
+              {item.user}
+            </h3>
+
+            {/* EDIT MODE */}
+
+            {editingComment ===
+            item._id ? (
+              <div className="mt-3 flex gap-3">
+                <input
+                  type="text"
+                  value={editText}
+                  onChange={(e) =>
+                    setEditText(
+                      e.target.value
+                    )
+                  }
+                  className="bg-black border border-zinc-700 px-4 py-2 rounded-lg outline-none"
+                />
+
+                <button
+                  onClick={() =>
+                    handleEditComment(
+                      item._id
+                    )
+                  }
+                  className="bg-blue-600 px-4 py-2 rounded-lg"
+                >
+                  Save
+                </button>
+              </div>
+            ) : (
+              <p className="text-gray-300 mt-2">
+                {item.text}
+              </p>
+            )}
+          </div>
+
+          {/* THREE DOTS */}
+
+          <div className="relative">
+            <button
+              onClick={() =>
+                setOpenMenu(
+                  openMenu ===
+                    item._id
+                    ? null
+                    : item._id
+                )
+              }
+              className="p-2 hover:bg-zinc-800 rounded-full"
+            >
+              <FaEllipsisV />
+            </button>
+
+            {/* DROPDOWN */}
+
+            {openMenu ===
+              item._id && (
+              <div className="absolute right-0 top-10 bg-zinc-800 rounded-lg overflow-hidden w-28 z-50">
+                <button
+                  onClick={() => {
+                    setEditingComment(
+                      item._id
+                    );
+
+                    setEditText(
+                      item.text
+                    );
+
+                    setOpenMenu(
+                      null
+                    );
+                  }}
+                  className="w-full text-left px-4 py-3 hover:bg-zinc-700"
+                >
+                  Edit
+                </button>
+
+                <button
+                  onClick={() =>
+                    handleDeleteComment(
+                      item._id
+                    )
+                  }
+                  className="w-full text-left px-4 py-3 hover:bg-zinc-700 text-red-500"
+                >
+                  Delete
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  )}
+</div>
+          </div>
+        </div>
+
+        
