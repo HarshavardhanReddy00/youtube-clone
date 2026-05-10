@@ -1,0 +1,106 @@
+import Video from "../models/Video.js";
+
+export const getVideos = async (req, res) => {
+  try {
+    const search = req.query.search || "";
+    const category = req.query.category || "";
+
+    let query = {};
+
+    if (search) {
+      query.title = {
+        $regex: search,
+        $options: "i"
+      };
+    }
+
+    if (category && category !== "All") {
+      query.category = category;
+    }
+
+    const videos = await Video.find(query)
+      .populate("uploader", "username avatar");
+
+    res.json(videos);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const getSingleVideo = async (req, res) => {
+  const video = await Video.findById(req.params.id)
+    .populate("uploader");
+
+  res.json(video);
+};
+
+export const uploadVideo = async (req, res) => {
+  const newVideo = await Video.create(req.body);
+
+  res.json(newVideo);
+};
+
+export const updateVideo = async (req, res) => {
+  const updated = await Video.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+
+  res.json(updated);
+};
+
+export const deleteVideo = async (req, res) => {
+  await Video.findByIdAndDelete(req.params.id);
+
+  res.json({
+    message: "Video Deleted"
+  });
+};
+
+// LIKE VIDEO
+
+export const likeVideo = async (
+  req,
+  res
+) => {
+  try {
+    const video = await Video.findById(
+      req.params.id
+    );
+
+    video.likes += 1;
+
+    await video.save();
+
+    res.json(video);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
+// DISLIKE VIDEO
+
+export const dislikeVideo = async (
+  req,
+  res
+) => {
+  try {
+    const video = await Video.findById(
+      req.params.id
+    );
+
+    video.dislikes += 1;
+
+    await video.save();
+
+    res.json(video);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
