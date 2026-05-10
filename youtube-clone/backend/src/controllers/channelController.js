@@ -177,3 +177,23 @@ export const deleteChannel = async (
   }
 };
 
+// Get Channel Videos
+export const getChannelVideos = async (
+  req,
+  res
+) => {
+  try {
+    const videos = await Video.find({
+      channel: req.params.id
+    }).populate(
+      "uploader",
+      "username avatar"
+    );
+
+    res.json(videos);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
