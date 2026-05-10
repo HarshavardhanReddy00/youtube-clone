@@ -155,3 +155,86 @@ export const incrementViews = async (
   }
 };
 
+// EDIT COMMENT
+
+export const editComment = async (
+  req,
+  res
+) => {
+  try {
+    const video = await Video.findById(
+      req.params.videoId
+    );
+
+    const comment =
+      video.comments.id(
+        req.params.commentId
+      );
+
+    if (!comment) {
+      return res.status(404).json({
+        message:
+          "Comment not found"
+      });
+    }
+
+    comment.text = req.body.text;
+
+    await video.save();
+
+    res.json(video.comments);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
+// DELETE COMMENT
+
+export const deleteComment =
+  async (req, res) => {
+    try {
+      const video =
+        await Video.findById(
+          req.params.videoId
+        );
+
+      video.comments =
+        video.comments.filter(
+          (comment) =>
+            comment._id.toString() !==
+            req.params.commentId
+        );
+
+      await video.save();
+
+      res.json(video.comments);
+    } catch (error) {
+      res.status(500).json({
+        message: error.message
+      });
+    }
+  };
+
+  // SUBSCRIBE CHANNEL
+
+export const subscribeChannel =
+  async (req, res) => {
+    try {
+      const video =
+        await Video.findById(
+          req.params.id
+        );
+
+      video.subscribers += 1;
+
+      await video.save();
+
+      res.json(video);
+    } catch (error) {
+      res.status(500).json({
+        message: error.message
+      });
+    }
+  };
