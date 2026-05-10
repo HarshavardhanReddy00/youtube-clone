@@ -454,4 +454,53 @@ const handleSubscribe =
           </div>
         </div>
 
-        
+        {/* RIGHT SIDEBAR */}
+
+        <div className="space-y-4">
+          {videos
+            .filter(
+              (v) => v._id !== id
+            )
+            .map((item) => (
+              <div
+                key={item._id}
+                onClick={() =>
+                  navigate(
+                    `/video/${item._id}`
+                  )
+                }
+
+                className="flex gap-3 cursor-pointer hover:bg-zinc-900 p-2 rounded-xl"
+              >
+                <img
+                  src={
+                    item.thumbnailUrl
+                  }
+                  className="w-44 h-24 object-cover rounded-xl"
+                />
+
+                <div>
+                  <h2 className="font-semibold text-sm line-clamp-2">
+                    {item.title}
+                  </h2>
+
+                  <p className="text-gray-400 text-xs mt-2">
+                    {
+                      item.uploader
+                        ?.username
+                    }
+                  </p>
+
+                  <p className="text-gray-400 text-xs">
+                    {item.views} views
+                  </p>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default VideoPage;
