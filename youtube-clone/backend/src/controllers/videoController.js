@@ -104,3 +104,54 @@ export const dislikeVideo = async (
   }
 };
 
+// ADD COMMENT
+
+export const addComment = async (
+  req,
+  res
+) => {
+  try {
+    const video = await Video.findById(
+      req.params.id
+    );
+
+    const comment = {
+      user: req.body.user,
+      text: req.body.text
+    };
+
+    video.comments.push(comment);
+
+    await video.save();
+
+    res.json(video.comments);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
+// INCREMENT VIEWS
+
+export const incrementViews = async (
+  req,
+  res
+) => {
+  try {
+    const video = await Video.findById(
+      req.params.id
+    );
+
+    video.views += 1;
+
+    await video.save();
+
+    res.json(video);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
